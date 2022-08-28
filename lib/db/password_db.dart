@@ -33,6 +33,7 @@ class PasswordDatabase {
     );
   }
 
+  // get items from db
   Future<List<PasswordItem>> getItems() async {
     Database db = await instance.database;
     var pwds = await db.query('passwords', orderBy: 'name');
@@ -43,11 +44,13 @@ class PasswordDatabase {
     return pwdList;
   }
 
+  // add item to db
   Future<int> add(PasswordItem item) async {
     Database db = await instance.database;
     return await db.insert('passwords', item.toMap());
   }
 
+  // delete all items from db
   Future<int> deleteAll() async {
     Database db = await instance.database;
     return await db.rawDelete('Delete from passwords');

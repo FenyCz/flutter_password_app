@@ -63,7 +63,7 @@ class _DetailPageState extends State<DetailPasswordPage> {
                   ..text = '${widget.item.pwd}',
                 decoration: InputDecoration(
                   labelText: 'Heslo',
-                  // password visible only on click
+                  // password visible only on click and copy as well
                   suffixIcon: Row(
                     mainAxisAlignment:
                         MainAxisAlignment.spaceBetween, // added line

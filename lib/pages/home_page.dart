@@ -31,8 +31,6 @@ class _MyHomePageState extends State<MyHomePage> {
           if (!snapshot.hasData) {
             return Center(child: Text('Načítám...'));
           }
-          print(snapshot.data?.isEmpty);
-
           return snapshot.data!.isEmpty
               ? Center(
                   child: Text('Nejsou uložena žádná hesla.'),
