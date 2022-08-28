@@ -1,10 +1,7 @@
 import 'package:first_app/model/password_item.dart';
-import 'package:first_app/pages/add_password_page.dart';
 import 'package:first_app/pages/detail_password_page.dart';
-import 'package:first_app/provider/items_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ItemWidget extends StatelessWidget {
   final PasswordItem item;

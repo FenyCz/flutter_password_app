@@ -1,6 +1,7 @@
 import 'package:first_app/model/password_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DetailPasswordPage extends StatefulWidget {
   DetailPasswordPage({super.key, required this.item});
@@ -13,6 +14,13 @@ class DetailPasswordPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPasswordPage> {
   bool _isObscure = true;
+
+  Future<void> _copyToClipboard(String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Zkopírováno'),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +38,10 @@ class _DetailPageState extends State<DetailPasswordPage> {
                   ..text = '${widget.item.name}',
                 decoration: InputDecoration(
                   labelText: 'Název',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.copy),
+                    onPressed: () => _copyToClipboard(widget.item.name),
+                  ),
                 ),
               ),
               TextField(
@@ -38,6 +50,10 @@ class _DetailPageState extends State<DetailPasswordPage> {
                   ..text = '${widget.item.user}',
                 decoration: InputDecoration(
                   labelText: 'Uživatel',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.copy),
+                    onPressed: () => _copyToClipboard(widget.item.user),
+                  ),
                 ),
               ),
               TextField(
@@ -47,15 +63,27 @@ class _DetailPageState extends State<DetailPasswordPage> {
                   ..text = '${widget.item.pwd}',
                 decoration: InputDecoration(
                   labelText: 'Heslo',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isObscure ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
-                    },
+                  // password visible only on click
+                  suffixIcon: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween, // added line
+                    mainAxisSize: MainAxisSize.min, // added line
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          _isObscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.copy),
+                        onPressed: () => _copyToClipboard(widget.item.pwd),
+                      ),
+                    ],
                   ),
                 ),
               ),

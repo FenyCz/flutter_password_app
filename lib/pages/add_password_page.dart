@@ -3,8 +3,6 @@ import 'package:first_app/model/password_item.dart';
 import 'package:first_app/provider/items_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import 'package:first_app/pages/home_page.dart';
 
 class NewPassPage extends StatelessWidget {
   const NewPassPage({super.key});
@@ -92,20 +90,22 @@ class AddFormState extends State<AddForm> {
               width: double.infinity,
               height: 55.0,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // if all input text is set
                   if (_formKey.currentState!.validate()) {
                     // uuid to generate unique id
-                    var uuid = Uuid();
-                    final provider =
-                        Provider.of<ItemsProvider>(context, listen: false);
+                    // final provider =
+                    //     Provider.of<ItemsProvider>(context, listen: false);
 
-                    // add item into list
-                    provider.addItem(PasswordItem(
-                        id: uuid.v1(),
-                        name: itemName,
-                        user: itemUser,
-                        pwd: itemPwd));
+                    // add item into db
+                    await PasswordDatabase.instance.add(PasswordItem(
+                        name: itemName, user: itemUser, pwd: itemPwd));
+
+                    // provider.addItem(PasswordItem(
+                    //     id: uuid.v1(),
+                    //     name: itemName,
+                    //     user: itemUser,
+                    //     pwd: itemPwd));
                     Navigator.pop(context);
                   }
                 },
