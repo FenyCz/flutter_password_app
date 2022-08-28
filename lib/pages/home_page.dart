@@ -51,11 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       floatingActionButton: FloatingActionButton(
+        // push to new page and afterwards setState to refresh the home page
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const NewPassPage()),
-          );
+          ).then((_) => setState(() {}));
         },
         child: const Icon(Icons.add),
       ),
