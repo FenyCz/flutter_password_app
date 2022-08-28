@@ -1,6 +1,9 @@
 import 'package:first_app/db/password_db.dart';
 import 'package:first_app/model/password_item.dart';
+import 'package:first_app/model/secure_password_item.dart';
+import 'package:first_app/service/secure_db_service.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class NewPassPage extends StatelessWidget {
   const NewPassPage({super.key});
@@ -30,6 +33,8 @@ class AddFormState extends State<AddForm> {
   String itemName = "";
   String itemUser = "";
   String itemPwd = "";
+  var uuid = Uuid();
+  final _secureService = SecureDbService();
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +96,16 @@ class AddFormState extends State<AddForm> {
                 onPressed: () async {
                   // if all input text is set
                   if (_formKey.currentState!.validate()) {
-                    // add item into db
+                    // we generate random key
+                    var generatedKey = uuid.v4();
+
+                    // then save password under the generated key
+                    _secureService.writeSecureData(
+                        SecurePasswordItem(key: generatedKey, value: itemPwd));
+
+                    // add item into db with key instead of password
                     await PasswordDatabase.instance.add(PasswordItem(
-                        name: itemName, user: itemUser, pwd: itemPwd));
+                        name: itemName, user: itemUser, pwd: generatedKey));
                     // get to main page
                     Navigator.pop(context);
                   }

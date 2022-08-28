@@ -36,22 +36,5 @@ class ItemWidget extends StatelessWidget {
         ),
       ),
     );
-    // return Center(
-    //   child: Text(
-    //     'Žádná hesla.',
-    //   ),
-    // );
-    // TODO pod timto az pojede db
-    // : ListView.separated(
-    //     physics: BouncingScrollPhysics(),
-    //     padding: EdgeInsets.all(16),
-    //     separatorBuilder: (context, index) => Container(height: 8),
-    //     itemCount: todos.length,
-    //     itemBuilder: (context, index) {
-    //       final todo = todos[index];
-    //
-    //       return TodoWidget(todo: todo);
-    //     },
-    //  );
   }
 }

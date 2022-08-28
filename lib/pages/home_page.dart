@@ -21,9 +21,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      // TODO toto je kdyztak funkcni
-      // body: ItemListWidget(),
-      // TODO prepared for db
       body: FutureBuilder<List<PasswordItem>>(
         future: PasswordDatabase.instance.getItems(),
         builder:
@@ -49,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         // push to new page and afterwards setState to refresh the home page
         onPressed: () {
