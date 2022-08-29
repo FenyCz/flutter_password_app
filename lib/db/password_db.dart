@@ -51,13 +51,11 @@ class PasswordDatabase {
       for (var item in pwdList) {
         var password = await secureService.readSecureData(item.pwd);
         // FIX ME if the password is null set to none
-        if (password == null) {
-          password = "none";
-        }
+        password ??= "none";
         newPwdList
             .add(PasswordItem(name: item.name, user: item.user, pwd: password));
       }
-      return pwdList;
+      return newPwdList;
     } else {
       return [];
     }
