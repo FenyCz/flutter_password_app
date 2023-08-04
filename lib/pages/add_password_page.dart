@@ -1,12 +1,16 @@
-import 'package:first_app/db/password_db.dart';
-import 'package:first_app/model/password_item.dart';
-import 'package:first_app/model/secure_password_item.dart';
+import 'package:first_app/hive_db/item.dart';
 import 'package:first_app/service/secure_db_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
+import '../hive_db/adapters.dart';
+import '../model/secure_password_item.dart';
+
 class NewPassPage extends StatelessWidget {
-  const NewPassPage({super.key});
+  const NewPassPage({super.key, required this.secureStorage});
+
+  final FlutterSecureStorage secureStorage;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +18,15 @@ class NewPassPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Add New Password'),
       ),
-      body: const AddForm(),
+      body: AddForm(secureStorage),
     );
   }
 }
 
 class AddForm extends StatefulWidget {
-  const AddForm({super.key});
+  const AddForm(this.secureStorage, {super.key});
+
+  final FlutterSecureStorage secureStorage;
 
   @override
   State<StatefulWidget> createState() {
@@ -33,7 +39,7 @@ class AddFormState extends State<AddForm> {
   String itemName = "";
   String itemUser = "";
   String itemPwd = "";
-  var uuid = Uuid();
+  var uuid = const Uuid();
   final _secureService = SecureDbService();
 
   @override
@@ -100,13 +106,14 @@ class AddFormState extends State<AddForm> {
                     var generatedKey = uuid.v4();
 
                     // then save password under the generated key
-                    _secureService.writeSecureData(
+                    _secureService.writeSecureData(widget.secureStorage,
                         SecurePasswordItem(key: generatedKey, value: itemPwd));
 
                     // add item into db with key instead of password
-                    await PasswordDatabase.instance.add(PasswordItem(
+                    createItem(Item(
                         name: itemName, user: itemUser, pwd: generatedKey));
                     // get to main page
+                    if (!mounted) return;
                     Navigator.pop(context);
                   }
                 },

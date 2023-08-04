@@ -1,0 +1,4 @@
+#Fri Aug 04 10:35:13 CEST 2023
+base.0=C\:\\Users\\fanap\\Desktop\\dev\\flutter_password_app-main\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

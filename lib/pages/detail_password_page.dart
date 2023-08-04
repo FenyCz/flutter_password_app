@@ -1,12 +1,11 @@
-import 'package:first_app/model/password_item.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:first_app/hive_db/item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class DetailPasswordPage extends StatefulWidget {
-  DetailPasswordPage({super.key, required this.item});
+  const DetailPasswordPage({super.key, required this.item});
 
-  final PasswordItem item;
+  final Item item;
 
   @override
   State<DetailPasswordPage> createState() => _DetailPageState();
@@ -17,6 +16,7 @@ class _DetailPageState extends State<DetailPasswordPage> {
 
   Future<void> _copyToClipboard(String text) async {
     await Clipboard.setData(ClipboardData(text: text));
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Zkopírováno'),
     ));
@@ -26,7 +26,7 @@ class _DetailPageState extends State<DetailPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.item.name}'),
+        title: Text(widget.item.name),
       ),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -34,8 +34,7 @@ class _DetailPageState extends State<DetailPasswordPage> {
             children: [
               TextField(
                 readOnly: true,
-                controller: TextEditingController()
-                  ..text = '${widget.item.name}',
+                controller: TextEditingController()..text = widget.item.name,
                 decoration: InputDecoration(
                   labelText: 'Název',
                   suffixIcon: IconButton(
@@ -46,8 +45,7 @@ class _DetailPageState extends State<DetailPasswordPage> {
               ),
               TextField(
                 readOnly: true,
-                controller: TextEditingController()
-                  ..text = '${widget.item.user}',
+                controller: TextEditingController()..text = widget.item.user,
                 decoration: InputDecoration(
                   labelText: 'Uživatel',
                   suffixIcon: IconButton(
@@ -59,8 +57,7 @@ class _DetailPageState extends State<DetailPasswordPage> {
               TextField(
                 obscureText: _isObscure,
                 readOnly: true,
-                controller: TextEditingController()
-                  ..text = '${widget.item.pwd}',
+                controller: TextEditingController()..text = widget.item.pwd,
                 decoration: InputDecoration(
                   labelText: 'Heslo',
                   // password visible only on click and copy as well
